@@ -22,7 +22,12 @@ const userModel = new mongoose.Schema({
         required:true
     },
     Scores:{
-        type:[Object]
+        type:Object,
+        default:{overallCoins:0, currentToken:0,overallToken:0, balance:0}
+    },
+    powerUps:{
+        type:Object,
+        default:{Shield:5,life:5,magnet:5}
     }
 },{timestamps:true})
 
