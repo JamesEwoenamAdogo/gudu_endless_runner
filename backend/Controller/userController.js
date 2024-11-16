@@ -13,7 +13,7 @@ export const signUp = async(req,res)=>{
         const existingUserName = await userSchema.find({userName})
         console.log(existingUserName)
         if(!(existingUserName.length==0)){
-            return res.json({success:false,message:"UserName already existing"})
+            return res.json({success:false,message:"username already existing"})
         }
         if(!allFields){
             return res.json({success:false,message:"please enter all fields"})
