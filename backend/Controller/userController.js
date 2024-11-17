@@ -37,6 +37,7 @@ export const signUp = async(req,res)=>{
 export const login = async(req,res)=>{
     try{
         const {userName,password}= req.body
+        console.log(req.body)
         const findExisting = await userSchema.find({userName})
         if(!findExisting){
             return res.json({success:false, message:"User not existing"})
