@@ -39,7 +39,7 @@ export const login = async(req,res)=>{
         const {userName,password}= req.body
         console.log(req.body)
         const findExisting = await userSchema.find({userName})
-        if(!findExisting){
+        if(!(findExisting.lenght==1)){
             return res.json({success:false, message:"User not existing"})
         }
         console.log(findExisting)
