@@ -39,7 +39,7 @@ export const login = async(req,res)=>{
         const {userName,password}= req.body
         const findExisting = await userSchema.find({userName})
         if(!findExisting){
-            return res.json({success:false,message:"User not existing"})
+            return res.json({success:false, message:"User not existing"})
         }
         console.log(findExisting)
         const comparePasswords = await bcrypt.compare(password,findExisting[0].password)
