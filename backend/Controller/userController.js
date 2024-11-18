@@ -62,7 +62,7 @@ export const login = async(req,res)=>{
 }
 export const getUser = async(req,res)=>{
     try{
-        const id = req.userId
+        const {id} = req.params
         const userDetails = await userSchema.findById(id)
         return res.json({success:true,user:userDetails})
     }catch(error){
