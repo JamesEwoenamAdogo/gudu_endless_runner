@@ -7,7 +7,7 @@ dotenv.config()
 
 const app = express()
 app.use(express.json())
-const port = process.env.PORT
+const port = process.env.PORT || 9000
 
 app.listen(port, ()=>{
     console.log("Database connected at "+port)
