@@ -38,6 +38,9 @@ export const login = async(req,res)=>{
     try{
         const {userName,password}= req.body
         console.log(req.body)
+        if(!(userName && password)){
+            return res.json({success:false, message: "Please enter all fields"})
+        }
         const findExisting = await userSchema.find({userName})
         if(!(findExisting.lenght==1)){
             return res.json({success:false, message:"User not existing"})
