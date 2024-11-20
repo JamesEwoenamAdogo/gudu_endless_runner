@@ -64,7 +64,7 @@ export const getUser = async(req,res)=>{
     try{
         const {id} = req.params
         const userDetails = await userSchema.findById(id)
-        return res.json({success:true,user:userDetails})
+        return res.json({success:true,fullName:userDetails.firstName,userName:userDetails.userName,phoneNumber:userDetails.phoneNumber,overAllCoins:userDetails.Scores.overallCoins,currentToken:userDetails.Scores.currentToken, overallToken:userDetails.Scores.overallToken,balance: userDetails.Scores.balance,shield:userDetails.powerUps.Shield,magnet:userDetails.powerUps.magnet, life:userDetails.powerUps.life})
     }catch(error){
         console.log(error)
         return res.json({success:false})
