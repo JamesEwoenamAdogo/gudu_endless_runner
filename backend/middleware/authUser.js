@@ -6,7 +6,7 @@ dotenv.config()
 
 export const userAuth = async(req,res,next)=>{
     try{
-        const token = req.headers.token
+        const {token} = req.body
         if(!token){
             return res.json({success:false, message:"no token"})
         }
