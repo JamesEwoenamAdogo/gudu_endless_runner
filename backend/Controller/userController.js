@@ -90,6 +90,7 @@ export const updateUser = async(req,res)=>{
     try{
         const id = req.userId
         const updateData= req.body
+        delete updateData.token
         const updated = await userSchema.findByIdAndUpdate(id, updateData, {new:true})
         return res.json({success:true, data:updated})
 
