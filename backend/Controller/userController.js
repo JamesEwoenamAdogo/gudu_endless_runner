@@ -92,7 +92,7 @@ export const updateUser = async(req,res)=>{
         if(req.body['currentPassword']){
             const {currentPassword,newPassword, confirmPassword} = req.body
             const existingUser = await userSchema.findById(id)
-            if(!existingUser.password==currentPassword){
+            if(!(existingUser.password==currentPassword)){
                 return res.json({success:false, message:"Current Password Incorrect"})
             }
             if(!(newPassword==confirmPassword)){
