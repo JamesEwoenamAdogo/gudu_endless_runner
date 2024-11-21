@@ -93,10 +93,10 @@ export const updateUser = async(req,res)=>{
             const {currentPassword,newPassword, confirmPassword} = req.body
             const existingUser = await userSchema.findById(id)
             if(!existingUser.password==currentPassword){
-                res.json({success:false, message:"Current Password Incorrect"})
+                return res.json({success:false, message:"Current Password Incorrect"})
             }
             if(!(newPassword==confirmPassword)){
-                res.json({success:false, message:"Password mismatch"})
+                return res.json({success:false, message:"Password mismatch"})
             }
             const hashedNewPassword = await bcrypt.hash(newPassword,10)
             const upadatePasswordBody = {password:hashedNewPassword}
