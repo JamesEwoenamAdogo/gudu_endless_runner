@@ -101,6 +101,7 @@ export const updateUser = async(req,res)=>{
             const hashedNewPassword = await bcrypt.hash(newPassword,10)
             const upadatePasswordBody = {password:hashedNewPassword}
             const updatedPassword = await userSchema.findByIdAndUpdate(id, upadatePasswordBody, {new: true})
+            return res.json({success: true, message: "Password Updated"})
 
         }
         const updateData= req.body
