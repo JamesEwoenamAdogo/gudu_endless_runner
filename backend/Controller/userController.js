@@ -129,6 +129,7 @@ export const updateScores = async(req,res)=>{
         let overallToken = existing.Scores.overallToken
         let overallCoins = existing.Scores.overallCoins
         let balance = existing.Scores.balance
+        console.log(existing)
 
         balance = currentCoins
         overallCoins+=balance
