@@ -51,7 +51,7 @@ export const login = async(req,res)=>{
             return res.json({success:false, message:"Invalid credentials"})
         }
         const token = jwt.sign({id:findExisting[0]._id,userName}, process.env.TOKEN_SECRET)
-        return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, findExisting[0].Scores})
+        return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: findExisting[0].Scores})
 
 
 
