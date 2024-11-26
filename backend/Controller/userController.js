@@ -110,7 +110,7 @@ export const updateUser = async(req,res)=>{
         delete updateData.token
         console.log(updateData)
         const updated = await userSchema.findByIdAndUpdate(id, updateData, {new:true})
-        return res.json({success:true, data:updated})
+        return res.json({success:true, data:updated}) 
 
     }catch(error){
         console.log(error)
