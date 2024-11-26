@@ -136,7 +136,7 @@ export const updateScores = async(req,res)=>{
         overallToken = (overallCoins/5000).toFixed(2)
         const scoreUpdate = {overallCoins,currentToken,overallToken,balance}
         const updateScores = await userSchema.findByIdAndUpdate(id,{Scores:scoreUpdate},{new:true})
-        return res.json({message:"success",overAllCoins:updateScores.Scores.overallCoins,overAllToken:updateScores.Scores.overallToken, currentTokens:updateScores.Scores.currentToken, Balance:updateScores.Scores.balance})
+        return res.json({message:"success", success: true, overAllCoins:updateScores.Scores.overallCoins,overAllToken:updateScores.Scores.overallToken, currentTokens:updateScores.Scores.currentToken, Balance:updateScores.Scores.balance})
 
 
 
@@ -146,6 +146,6 @@ export const updateScores = async(req,res)=>{
 
     }catch(error){
         console.log(error)
-        res.status(500).json({message:"error"})
+        res.status(500).json({success:false, message:"error"})
     }
 }
