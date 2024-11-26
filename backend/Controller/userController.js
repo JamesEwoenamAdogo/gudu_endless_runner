@@ -124,7 +124,7 @@ export const updateScores = async(req,res)=>{
         const id = req.userId
         const {coins} = req.body
         const currentCoins = parseInt(coins.split(" ")[1], 10)
-        const existing = await  userSchema.findById(id)
+        const existing = await userSchema.findById(id)
         let currentToken = existing.Scores.currentToken
         let overallToken = existing.Scores.overallToken
         let overallCoins = existing.Scores.overallCoins
