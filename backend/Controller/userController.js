@@ -136,6 +136,7 @@ export const updateScores = async(req,res)=>{
         currentToken = (currentCoins/5000).toFixed(2)
         overallToken = (overallCoins/5000).toFixed(2)
         const scoreUpdate = {overallCoins,currentToken,overallToken,balance}
+        console.log(scoreUpdate)
         const updateScores = await userSchema.findByIdAndUpdate(id,{Scores:scoreUpdate},{new:true})
         console.log(updateScores)
         return res.json({message:"success", success: true, overAllCoins:updateScores.Scores.overallCoins,overAllToken:updateScores.Scores.overallToken, currentTokens:updateScores.Scores.currentToken, Balance:updateScores.Scores.balance})
