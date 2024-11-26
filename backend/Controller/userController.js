@@ -118,3 +118,33 @@ export const updateUser = async(req,res)=>{
     }
 
 }
+
+export const updateScores = async(req,res)=>{
+    try{
+        const id = req.userId
+        const {coins} = req.body
+        const existing = await  userSchema.findById(id)
+        let currentToken = existing.Scores.currentToken
+        let overallToken = existing.Scores.overallToken
+        let overallCoins = existing.Scores.overallCoins
+        let balance = existing.Scores.balance
+
+        balance = coins
+        overallCoins+=balance
+        currentToken = (coins/5000).toFixed(2)
+        overallToken = (overallCoins/5000).toFixed(2)
+        const scoreUpdate = {overallCoins,currentToken,overallToken,balance}
+        const updateScores = await userSchema.findByIdAndUpdate(id,{Scores:scoreUpdate},{new:true})
+        return res.json({message:"success",overAllCoins:updateScores.Scores.overallCoins,overAllToken:updateScores.Scores.overallToken, currentTokens:updateScores.Scores.currentToken, Balance:updateScores.Scores.balance})
+
+
+
+
+
+
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message:"error"})
+    }
+}
