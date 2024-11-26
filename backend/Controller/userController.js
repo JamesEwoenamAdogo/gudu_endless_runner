@@ -24,7 +24,7 @@ export const signUp = async(req,res)=>{
         const hashedPassword = await bcrypt.hash(password,10)
         const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber})
         newUser.save()
-        return res.json({success:true})
+        return res.json({success:true, newUser})
 
 
 
@@ -51,7 +51,7 @@ export const login = async(req,res)=>{
             return res.json({success:false, message:"Invalid credentials"})
         }
         const token = jwt.sign({id:findExisting[0]._id,userName}, process.env.TOKEN_SECRET)
-        return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id})
+        return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, findExisting[0].Scores})
 
 
 
