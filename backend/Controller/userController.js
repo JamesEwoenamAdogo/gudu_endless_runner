@@ -152,3 +152,49 @@ export const updateScores = async(req,res)=>{
         res.status(500).json({success:false, message:"error"})
     }
 }
+
+export const updateAssets = async(req,res)=>{
+    try{
+        const id = req.userId
+        const assetToChange = req.body.asset
+        if(assetToChange =="shield"){
+            const userDetails = await userSchema.findById(id)
+            let Shield = userDetails.powerUps.Shield
+            Shield+=-1
+            let magnet = userDetails.powerUps.magnet
+            let life = userDetails.powerUps.life
+            let powerUps = {Shield,magnet,life}
+            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
+            return res.json({success:true})
+
+        }
+        if(assetToChange =="magnet"){
+            const userDetails = await userSchema.findById(id)
+            let Shield = userDetails.powerUps.Shield
+            let magnet = userDetails.powerUps.magnet
+            magnet+=-1
+            let life = userDetails.powerUps.life
+            let powerUps = {Shield,magnet,life}
+            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
+            return res.json({success:true})
+            
+        }
+        if(assetToChange =="life"){
+            const userDetails = await userSchema.findById(id)
+            let Shield = userDetails.powerUps.Shield
+            let magnet = userDetails.powerUps.magnet
+            let life = userDetails.powerUps.life
+            life+=-1
+            let powerUps = {Shield,magnet,life}
+            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
+            return res.json({success:true})
+            
+        }
+
+
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json({success:false})
+    }
+}
