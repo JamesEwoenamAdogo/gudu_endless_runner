@@ -165,7 +165,7 @@ export const updateAssets = async(req,res)=>{
             let life = userDetails.powerUps.life
             let powerUps = {Shield,magnet,life}
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
-            return res.json({success:true, shield: updatePowerUps.powerUps.shield})
+            return res.json({success:true, shield: updatePowerUps.powerUps.Shield})
 
         }
         if(assetToChange =="magnet"){
