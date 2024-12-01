@@ -165,7 +165,7 @@ export const updateAssets = async(req,res)=>{
             let life = userDetails.powerUps.life
             let powerUps = {Shield,magnet,life}
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
-            return res.json({success:true})
+            return res.json({success:true, shield: updatePowerUps.powerUps.shield})
 
         }
         if(assetToChange =="magnet"){
@@ -176,7 +176,7 @@ export const updateAssets = async(req,res)=>{
             let life = userDetails.powerUps.life
             let powerUps = {Shield,magnet,life}
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
-            return res.json({success:true})
+            return res.json({success:true,magnet: updatePowerUps.powerUps.magnet})
             
         }
         if(assetToChange =="life"){
@@ -187,7 +187,7 @@ export const updateAssets = async(req,res)=>{
             life+=-1
             let powerUps = {Shield,magnet,life}
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
-            return res.json({success:true})
+            return res.json({success:true, life: updatePowerUps.powerUps.life})
             
         }
 
