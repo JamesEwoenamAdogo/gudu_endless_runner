@@ -28,6 +28,13 @@ const userModel = new mongoose.Schema({
     powerUps:{
         type:Object,
         default:{Shield:5,life:5,magnet:5}
+    },
+    OTP:{
+        type: String
+    },
+    verified:{
+        type:Boolean,
+        default: false
     }
 },{timestamps:true})
 

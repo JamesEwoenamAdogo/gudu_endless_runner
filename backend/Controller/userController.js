@@ -198,3 +198,78 @@ export const updateAssets = async(req,res)=>{
         res.status(500).json({success:false})
     }
 }
+
+export const verifyAccount = async(req,res)=>{
+    try{
+        const {OTPCode,phoneNumber}= req.body
+        const id = req.userId
+        const accountDetails = await userSchema.findById(id)
+        if(!(OTPCode== accountDetails.OTP)){
+            return res.json({success:false, message:"invalid code"})
+        }
+        else if(phoneNumber==accountDetails.phoneNumber){
+            const user = await userSchema.findByIdAndUpdate(id,{verified:true,OTP:""}, {new:true})
+            
+            return res.json({success:false, message:"signup success"})
+        }
+        
+
+
+
+
+
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({success:false})
+    }
+}
+
+export const checkNumber = async(req,res)=>{
+    try{
+       const {phoneNumber,OTP} = req.body;
+        const existingPhoneNumber = await userSchema.find({phoneNumber})
+        if(existingPhoneNumber.length==0){
+            return res.json({success:false, message:"Invalid phoneNumber"})
+        }
+        await userSchema.findByIdAndUpdate(existingPhoneNumber[0]._id,{OTP}, {new:true})
+        return res.json({success:true})
+
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({success:false})
+    }
+}
+
+export const checkOTP = async(req,res)=>{
+    try{
+        const {OTP,phoneNumber}= req.body
+        const OTPexisting = await userSchema.find({OTP})
+        if(!(OTPexisting[0].OTP==OTP)){
+            return res.json({success:false})
+        }
+        if(phoneNumber== OTPexisting[0].phoneNumber){
+            return res.json({success:true,id:OTPexisting[0]._id})
+        }
+
+
+
+
+    }catch(error){
+        console.log(error)
+        return res.json({success:false})
+    }
+}
+
+export const resetPassword = async (req,res)=>{
+    try{
+        const {id,password}= req.body
+        const hashedPassword = await bcrypt.hash(password,10)
+        const user = await userSchema.findByIdAndUpdate(id,{password:hashedPassword},{new:true})
+        return res.json({success:true,message:"Password updated successfully"})
+
+
+    }catch(error){
+        console.log(error)
+        return res.json({success:false})
+    }
+}

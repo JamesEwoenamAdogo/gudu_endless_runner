@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import { userRoutes } from "./Routes/userRoutes.js"
+import { pictureRoute } from "./Routes/pictureRoute.js"
 
 dotenv.config()
 
@@ -16,3 +17,6 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("Database connected")
 })
 app.use("/api/v1",userRoutes)
+app.use("/api/v1",pictureRoute)
+app.use("/images",express.static("uploads"))
+
