@@ -202,12 +202,12 @@ export const updateAssets = async(req,res)=>{
 export const verifyAccount = async(req,res)=>{
     try{
         const {OTPCode,phoneNumber}= req.body
-        const id = req.userId
-        const accountDetails = await userSchema.findById(id)
-        if(!(OTPCode== accountDetails.OTP)){
+        // const id = req.userId
+        const accountDetails = await userSchema.findById({phoneNumber})
+        if(!(OTPCode== accountDetails[0].OTP)){
             return res.json({success:false, message:"invalid code"})
         }
-        else if(phoneNumber==accountDetails.phoneNumber){
+        else if(phoneNumber==accountDetails[0].phoneNumber){
             const user = await userSchema.findByIdAndUpdate(id,{verified:true,OTP:""}, {new:true})
             
             return res.json({success:false, message:"signup success"})

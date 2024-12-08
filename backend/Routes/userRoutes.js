@@ -11,7 +11,7 @@ userRoutes.delete("/delete-user",userAuth,deleteUser)
 userRoutes.get("/user-details/:id", getUser)
 userRoutes.put("/update-scores", userAuth , updateScores)
 userRoutes.put("/update-powerUps",userAuth,updateAssets)
-userRoutes.post("/verify-account", userAuth,verifyAccount)
+userRoutes.post("/verify-account", verifyAccount)
 
 userRoutes.post("/check-number", checkNumber)
 userRoutes.post("/checkOTP",checkOTP)
