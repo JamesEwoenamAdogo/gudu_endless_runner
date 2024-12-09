@@ -8,7 +8,7 @@ export const addPicture = async(req,res)=>{
         // console.log(req.file)
         const newPicture = await new pictureModel({picture:req.file.filename})
         newPicture.save()
-        return res.json({file:req.file})
+        return res.json({file:req.file.filename})
         
 
 
