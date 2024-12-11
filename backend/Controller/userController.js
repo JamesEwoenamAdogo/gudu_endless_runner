@@ -208,7 +208,7 @@ export const verifyAccount = async(req,res)=>{
             return res.json({success:false, message:"invalid code"})
         }
         else if(phoneNumber==accountDetails[0].phoneNumber){
-            const user = await userSchema.findByIdAndUpdate(accountDetails[0]._id,{verified:true,OTP:""}, {new:true})
+            const user = await userSchema.findByIdAndUpdate( accountDetails[0]._id , {verified:true,OTP:""}, {new:true})
             
             return res.json({success:true, message:"signup success"})
         }
