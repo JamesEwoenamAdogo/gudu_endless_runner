@@ -203,7 +203,7 @@ export const verifyAccount = async(req,res)=>{
     try{
         const {OTPCode,phoneNumber}= req.body
         // const id = req.userId
-        const accountDetails = await userSchema.findById({phoneNumber})
+        const accountDetails = await userSchema.find({phoneNumber})
         if(!(OTPCode== accountDetails[0].OTP)){
             return res.json({success:false, message:"invalid code"})
         }
