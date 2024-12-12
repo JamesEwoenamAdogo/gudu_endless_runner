@@ -15,8 +15,7 @@ export const addPicture = async(req,res)=>{
                 
             }
             res.json({success:true,message:"Picture uploaded",data: result})
-            const newPicture =  new pictureModel({picture: result.url})
-            newPicture.save()
+           
             publicId = result.public_id
            
 
@@ -27,6 +26,8 @@ export const addPicture = async(req,res)=>{
             quality:"auto"
         })
         console.log(optimizeUrl)
+        const newPicture =  new pictureModel({picture: optimizeUrl})
+        newPicture.save()
         // return res.json({file:req.file.filename})
         
 
