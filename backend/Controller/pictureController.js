@@ -27,7 +27,7 @@ export const addPicture = async(req,res)=>{
             quality:"auto"
         })
         console.log(optimizeUrl)
-        return res.json({file:req.file.filename})
+        // return res.json({file:req.file.filename})
         
 
 
