@@ -1,5 +1,6 @@
 import { pictureModel } from "../Model/pictureUpload.js";
 import fs from "fs"
+import cloudinary from "../utils/cloudinaryConfig.js";
 
 
 export const addPicture = async(req,res)=>{
@@ -8,6 +9,15 @@ export const addPicture = async(req,res)=>{
         // console.log(req.file)
         const newPicture = await new pictureModel({picture:req.file.filename})
         newPicture.save()
+        cloudinary.uploader.upload(req.file.path, (err, result)=>{
+        
+            if(err){
+                res.status(500).json({sucess:false,message:"Error"})
+            }
+            res.json({success:true,message:"Picture uploaded",data: result})
+            
+
+        })
         return res.json({file:req.file.filename})
         
 
