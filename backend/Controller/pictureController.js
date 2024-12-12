@@ -15,7 +15,7 @@ export const addPicture = async(req,res)=>{
                 
             }
             res.json({success:true,message:"Picture uploaded",data: result})
-            const newPicture = new pictureModel({picture: result.url})
+            const newPicture =  new pictureModel({picture: result.url})
             newPicture.save()
            
 
