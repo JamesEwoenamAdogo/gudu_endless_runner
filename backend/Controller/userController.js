@@ -13,7 +13,7 @@ export const signUp = async(req,res)=>{
         const existingUserName = await userSchema.find({userName})
         const checkPhoneNumber = await userSchema.find({phoneNumber})
         console.log(existingUserName)
-        if(checkPhoneNumber){
+        if(!(checkPhoneNumber.length == 0)){
             return res.json({success:false, message:"Phone Number already registered"})
         }
         if(!(existingUserName.length==0)){
