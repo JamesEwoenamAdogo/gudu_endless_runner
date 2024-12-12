@@ -11,7 +11,11 @@ export const signUp = async(req,res)=>{
         const passwordMatch = confirm_Password==password
         const allFields = firstName && userName && userName && D_O_B&& password && confirm_Password && phoneNumber
         const existingUserName = await userSchema.find({userName})
+        const checkPhoneNumber = await userSchema.find({phoneNumber})
         console.log(existingUserName)
+        if(checkPhoneNumber){
+            return res.json({success:false, message:"Phone Number already registered"})
+        }
         if(!(existingUserName.length==0)){
             return res.json({success:false,message:"username already existing"})
         }
@@ -21,6 +25,7 @@ export const signUp = async(req,res)=>{
         if(!passwordMatch){
             return res.json({success:false,message:"Passwords mismatch"})
         }
+        
         const hashedPassword = await bcrypt.hash(password,10)
         const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber})
         newUser.save()
@@ -45,6 +50,7 @@ export const login = async(req,res)=>{
         if(!(findExisting.length==1)){
             return res.json({success:false, message:"User not existing"})
         }
+        
         console.log(findExisting)
         const comparePasswords = await bcrypt.compare(password,findExisting[0].password)
         if(!comparePasswords){
