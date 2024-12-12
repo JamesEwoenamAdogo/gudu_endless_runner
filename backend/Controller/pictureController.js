@@ -9,16 +9,15 @@ export const addPicture = async(req,res)=>{
         // console.log(req.file)
         const newPicture = await new pictureModel({picture:req.file.filename})
         newPicture.save()
-        cloudinary.uploader.upload(req.file.path, (err, result)=>{
-        
+        await cloudinary.uploader.upload(req.file.path, (err, result)=>{
             if(err){
-                return res.status(500).json({sucess:false,message:"Error"})
+                return  res.status(500).json({sucess:false,message:"Error"})
                 console.log(err)
             }
-               res.json({success:true,message:"Picture uploaded",data: result})
+            res.json({success:true,message:"Picture uploaded",data: result})
             
 
-        })
+        });
         return res.json({file:req.file.filename})
         
 
