@@ -11,8 +11,9 @@ export const addPicture = async(req,res)=>{
         newPicture.save()
         await cloudinary.uploader.upload(req.file.path, (err, result)=>{
             if(err){
-                return  res.status(500).json({sucess:false,message:"Error"})
                 console.log(err)
+                return  res.status(500).json({sucess:false,message:"Error"})
+                
             }
             res.json({success:true,message:"Picture uploaded",data: result})
             
