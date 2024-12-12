@@ -7,7 +7,7 @@ export const addPicture = async(req,res)=>{
     try{
         // const fileName = req.files.filename
         // console.log(req.file)
-       
+        let publicId
         await cloudinary.uploader.upload(req.file.path, (err, result)=>{
             if(err){
                 console.log(err)
@@ -17,9 +17,16 @@ export const addPicture = async(req,res)=>{
             res.json({success:true,message:"Picture uploaded",data: result})
             const newPicture =  new pictureModel({picture: result.url})
             newPicture.save()
+            publicId = result.public_id
            
 
         });
+
+        const optimizeUrl = cloudinary.url(publicId,{
+            fetch_format: "auto",
+            quality:"auto"
+        })
+        console.log(optimizeUrl)
         return res.json({file:req.file.filename})
         
 
