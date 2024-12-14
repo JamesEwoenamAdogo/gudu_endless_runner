@@ -46,7 +46,11 @@ export const allPictures = async(req,res)=>{
         const allImages = await pictureModel.find({})
         let numberIndex = allImages.length -1
         let displayIndex = Math.floor(Math.random()*numberIndex)
-        return res.json({success:true,image:allImages[displayIndex].picture})
+        let pictureURLs = []
+        for(let url of allImages){
+            pictureURLs.push(url.picture)
+        }
+        return res.json({success:true,image:allImages[displayIndex].picture, allImages:pictureURLs})
 
 
 
