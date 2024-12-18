@@ -289,7 +289,7 @@ export const deleteAccount = async(req,res)=>{
 
         }
         console.log(findAccount)
-        await userSchema.findByIdAndDelete(findAccount[0]._id)
+        await userSchema.findByIdAndDelete(findAccount[0]._id) 
         return res.json({success:true, message:"Account data deleted"})  
 
     }catch(error){
