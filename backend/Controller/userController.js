@@ -284,6 +284,9 @@ export const deleteAccount = async(req,res)=>{
     try{
         const {phone} = req.params
         const findAccount = await userSchema.find({phoneNumber:phone})
+        if(!findAccount){
+            return res.json({success:false,message:"Account no existing"})
+        }
         await userSchema.findByIdAndDelete(findAccount[0]._id)
         return res.json({success:true, message:"Account data deleted"}) 
 
