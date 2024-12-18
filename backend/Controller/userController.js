@@ -279,3 +279,16 @@ export const resetPassword = async (req,res)=>{
         return res.json({success:false})
     }
 }
+
+export const deleteAccount = async(req,res)=>{
+    try{
+        const {phone} = req.params
+        const findAccount = await userSchema.find({phoneNumber:phone})
+        await userSchema.findByIdAndDelete(findAccount[0]._id)
+        return res.json({success:true, message:"Accoun deleted"})
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json({success:false})
+    }
+}
