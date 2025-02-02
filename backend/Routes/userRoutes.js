@@ -5,12 +5,12 @@ import { userAuth } from "../middleware/authUser.js"
 export const userRoutes = express.Router()
 
 userRoutes.post("/sign-up/:name",signUp)
-userRoutes.post("/login",login)
+userRoutes.post("/login/:name",login)
 userRoutes.put("/update-user",userAuth,updateUser)
 userRoutes.delete("/delete-user",userAuth,deleteUser)
 userRoutes.get("/user-details/:id", getUser)
-userRoutes.put("/update-scores", userAuth , updateScores)
-userRoutes.put("/update-powerUps",userAuth,updateAssets)
+userRoutes.put("/update-scores/:name", userAuth , updateScores)
+userRoutes.put("/update-powerUps/:name",userAuth,updateAssets)
 userRoutes.post("/verify-account", verifyAccount)
 
 userRoutes.post("/check-number", checkNumber)
