@@ -31,6 +31,8 @@ export const signUp = async(req,res)=>{
         const PowerUps = {game:name,Shield:5,life:5,magnet:5}
         const gamePowerUps = [PowerUps]
         
+        console.log(PowerUps)
+        
         const hashedPassword = await bcrypt.hash(password,10)
         const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber,OTP,Scores:gameScores,PowerUps:gamePowerUps})
         newUser.save()
