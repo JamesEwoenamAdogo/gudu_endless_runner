@@ -34,7 +34,7 @@ export const signUp = async(req,res)=>{
         console.log(PowerUps)
         
         const hashedPassword = await bcrypt.hash(password,10)
-        const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber,OTP,Scores:gameScores,PowerUps:gamePowerUps})
+        const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber,OTP,Scores:gameScores,powerUps:gamePowerUps})
         newUser.save()
         return res.json({success:true, newUser})
 
