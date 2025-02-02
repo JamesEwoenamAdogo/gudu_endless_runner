@@ -149,7 +149,8 @@ export const updateUser = async(req,res)=>{
 export const updateScores = async(req,res)=>{
     try{
         const id = req.userId
-        const {coins,name} = req.body
+        const {name} = req.params
+        const {coins} = req.body
         const currentCoins = parseInt(coins.split(" ")[1], 10)
         const existing = await userSchema.findById(id)
         const existingScores = existing.Scores.find((item)=>{return item.game == name})
