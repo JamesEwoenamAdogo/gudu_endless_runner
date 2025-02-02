@@ -153,21 +153,22 @@ export const updateScores = async(req,res)=>{
         const currentCoins = parseInt(coins.split(" ")[1], 10)
         const existing = await userSchema.findById(id)
         const existingScores = existing.Scores.find((item)=>{return item.game == name})
+        console.log(existing)
         console.log(existingScores)
         let currentToken = existingScores.currentToken
         let overallToken = existingScores.overallToken
         let overallCoins = existingScores.overallCoins
         let balance = existingScores.balance
-        console.log(existing)
+        
 
         balance = currentCoins
         overallCoins+=balance
         currentToken = parseFloat((currentCoins/5000).toFixed(3))
         overallToken = parseFloat((overallCoins/5000).toFixed(3))
         const scoreUpdate = {overallCoins,currentToken,overallToken,balance} 
-        console.log(scoreUpdate)
+        // console.log(scoreUpdate)
         const updateScores = await userSchema.findByIdAndUpdate(id,{Scores:[...existing.Scores, scoreUpdate]},{new:true})
-        console.log(updateScores)
+        // console.log(updateScores)
         const gameUpdateScores = updateScores.Scores.find((item)=>{return item.game == name})
         return res.json({message:"success", success: true, overAllCoins:gameUpdateScores.overallCoins,overAllToken:gameUpdateScores.overallToken, currentTokens:gameUpdateScores.currentToken, Balance:gameUpdateScores.balance})
 
