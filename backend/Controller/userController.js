@@ -7,6 +7,7 @@ dotenv.config()
 export const signUp = async(req,res)=>{
     try{
         // console.log(req.body)
+        const {name} = req.params
         const {firstName, userName, D_O_B,password,confirm_Password,phoneNumber,OTP}= req.body
         const passwordMatch = confirm_Password==password
         const allFields = firstName && userName && userName && D_O_B&& password && confirm_Password && phoneNumber
@@ -25,9 +26,13 @@ export const signUp = async(req,res)=>{
         if(!passwordMatch){
             return res.json({success:false,message:"Passwords mismatch"})
         }
+        const Scores= {game:name,overallCoins:0,overallTokens:0,curentToken:0,balance:0}
+        const gameScores = [Scores]
+        const PowerUps = {game:name,Shield:5,life:5,magnet:5}
+        const gamePowerUps = [PowerUps]
         
         const hashedPassword = await bcrypt.hash(password,10)
-        const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber,OTP})
+        const newUser = new userSchema({firstName,userName,D_O_B, password:hashedPassword,phoneNumber,OTP,Scores:gameScores,PowerUps:gamePowerUps})
         newUser.save()
         return res.json({success:true, newUser})
 
@@ -41,6 +46,8 @@ export const signUp = async(req,res)=>{
 }
 export const login = async(req,res)=>{
     try{
+        const {name}= req.params
+        
         const {userName,password}= req.body
         console.log(req.body)
         if(!(userName && password)){
@@ -56,7 +63,17 @@ export const login = async(req,res)=>{
         if(!comparePasswords){
             return res.json({success:false, message:"Invalid credentials"})
         }
+        const findExistingGame = findExisting[0].powerUps.find((item)=>{return item.game==name})
         const token = jwt.sign({id:findExisting[0]._id,userName}, process.env.TOKEN_SECRET)
+        if(!findExistingGame){
+            const gamePowerUps = [...findExisting[0].powerUps,{game:name,Shield:5,life:5,magnet:5}]
+            const gameScores = [...findExisting[0].Scores,{game:name,overallCoins:0,overallTokens:0,currentToken:0,balance:0}]
+            const updated = await userSchema.findByIdAndUpdate(findExisting[0]._id,{powerUps:gamePowerUps,Scores:gameScores})
+
+            return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: findExisting[0].Scores,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
+            
+        }
+      
         return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: findExisting[0].Scores,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
 
 
@@ -68,9 +85,11 @@ export const login = async(req,res)=>{
 }
 export const getUser = async(req,res)=>{
     try{
-        const {id} = req.params
+        const {name,id} = req.params
         const userDetails = await userSchema.findById(id)
-        return res.json({success:true,fullName:userDetails.firstName,userName:userDetails.userName,D_O_B:userDetails.D_O_B, phoneNumber:userDetails.phoneNumber,overAllCoins:userDetails.Scores.overallCoins,currentToken:userDetails.Scores.currentToken, overallToken:userDetails.Scores.overallToken,balance: userDetails.Scores.balance,shield:userDetails.powerUps.Shield,magnet:userDetails.powerUps.magnet, life:userDetails.powerUps.life})
+        const gamePowerUps = userDetails.powerUps.find((item)=>{return item.game == name})
+        const gameScores = userDetails.Scores.find((item)=>{return item.game == name})
+        return res.json({success:true,fullName:userDetails.firstName,userName:userDetails.userName,D_O_B:userDetails.D_O_B, phoneNumber:userDetails.phoneNumber,overAllCoins:gameScores[0].overallCoins,currentToken:gameScores[0].currentToken, overallToken:gameScores[0].overallToken,balance: gameScores[0].balance,shield:gamePowerUps[0].Shield,magnet:gamePowerUps[0].magnet, life:gamePowerUps[0].life})
     }catch(error){
         console.log(error)
         return res.json({success:false})
@@ -128,13 +147,14 @@ export const updateUser = async(req,res)=>{
 export const updateScores = async(req,res)=>{
     try{
         const id = req.userId
-        const {coins} = req.body
+        const {coins,name} = req.body
         const currentCoins = parseInt(coins.split(" ")[1], 10)
         const existing = await userSchema.findById(id)
-        let currentToken = existing.Scores.currentToken
-        let overallToken = existing.Scores.overallToken
-        let overallCoins = existing.Scores.overallCoins
-        let balance = existing.Scores.balance
+        const existingScores = existing.Scores.find((item)=>{return item.game == name})
+        let currentToken = existingScores[0].currentToken
+        let overallToken = existingScores[0].overallToken
+        let overallCoins = existingScores[0].overallCoins
+        let balance = existingScores[0].balance
         console.log(existing)
 
         balance = currentCoins
@@ -143,9 +163,10 @@ export const updateScores = async(req,res)=>{
         overallToken = parseFloat((overallCoins/5000).toFixed(3))
         const scoreUpdate = {overallCoins,currentToken,overallToken,balance} 
         console.log(scoreUpdate)
-        const updateScores = await userSchema.findByIdAndUpdate(id,{Scores:scoreUpdate},{new:true})
+        const updateScores = await userSchema.findByIdAndUpdate(id,{Scores:[...existing.Scores, scoreUpdate]},{new:true})
         console.log(updateScores)
-        return res.json({message:"success", success: true, overAllCoins:updateScores.Scores.overallCoins,overAllToken:updateScores.Scores.overallToken, currentTokens:updateScores.Scores.currentToken, Balance:updateScores.Scores.balance})
+        const gameUpdateScores = updateScores.Scores.find((item)=>{return item.game == name})
+        return res.json({message:"success", success: true, overAllCoins:gameUpdateScores[0].overallCoins,overAllToken:gameUpdateScores[0].overallToken, currentTokens:gameUpdateScores[0].currentToken, Balance:gameUpdateScores[0].balance})
 
 
 
@@ -162,36 +183,41 @@ export const updateScores = async(req,res)=>{
 export const updateAssets = async(req,res)=>{
     try{
         const id = req.userId
+        const {name} = req.params
         const assetToChange = req.body.asset
+
+        const userDetails = await userSchema.findById(id)
+        const gameuserDetails = useDetails.powerUps.find((item)=>{return item.game==name})
+        
         if(assetToChange =="shield"){
-            const userDetails = await userSchema.findById(id)
-            let Shield = userDetails.powerUps.Shield
+            
+            let Shield = gameuserDetails[0].Shield
             Shield+=-1
-            let magnet = userDetails.powerUps.magnet
-            let life = userDetails.powerUps.life
-            let powerUps = {Shield,magnet,life}
+            let magnet = gameuserDetails[0].magnet
+            let life = gameuserDetails[0].life
+            let powerUps = [...userDetails.powerUps, {game:name,Shield,magnet,life}]
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
             return res.json({success:true, shield: updatePowerUps.powerUps.Shield})
 
         }
         if(assetToChange =="magnet"){
-            const userDetails = await userSchema.findById(id)
-            let Shield = userDetails.powerUps.Shield
-            let magnet = userDetails.powerUps.magnet
+            
+            let Shield = gameuserDetails[0].Shield
+            let magnet = gameuserDetails[0].magnet
             magnet+=-1
-            let life = userDetails.powerUps.life
-            let powerUps = {Shield,magnet,life}
+            let life = gameuserDetails[0].life
+            let powerUps = [...userDetails.powerUps, {game:name, Shield,magnet,life}]
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
             return res.json({success:true,magnet: updatePowerUps.powerUps.magnet})
             
         }
         if(assetToChange =="life"){
-            const userDetails = await userSchema.findById(id)
-            let Shield = userDetails.powerUps.Shield
-            let magnet = userDetails.powerUps.magnet
-            let life = userDetails.powerUps.life
+            
+            let Shield = gameuserDetails[0].Shield
+            let magnet = gameuserDetails[0].magnet
+            let life = gameuserDetails[0].life
             life+=-1
-            let powerUps = {Shield,magnet,life}
+            let powerUps = [...userDetails.powerUps, {game:name,Shield,magnet,life}]
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
             return res.json({success:true, life: updatePowerUps.powerUps.life})
             
