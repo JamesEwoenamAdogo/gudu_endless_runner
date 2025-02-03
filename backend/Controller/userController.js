@@ -193,7 +193,7 @@ export const updateAssets = async(req,res)=>{
         const assetToChange = req.body.asset
 
         const userDetails = await userSchema.findById(id)
-        const gameuserDetails = useDetails.powerUps.find((item)=>{return item.game==name})
+        const gameuserDetails = userDetails.powerUps.find((item)=>{return item.game==name})
         
         if(assetToChange =="shield"){
             
