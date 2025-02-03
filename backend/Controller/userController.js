@@ -205,7 +205,8 @@ export const updateAssets = async(req,res)=>{
             const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item}) 
             
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
-            return res.json({success:true, shield: updatePowerUps.powerUps.Shield})
+            const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
+            return res.json({success:true, shield: PowerUps.Shield})
 
         }
         if(assetToChange =="magnet"){
@@ -218,7 +219,9 @@ export const updateAssets = async(req,res)=>{
             const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
     
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
-            return res.json({success:true,magnet: updatePowerUps.powerUps.magnet})
+            const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
+            
+            return res.json({success:true,magnet: PowerUps.magnet})
             
         }
         if(assetToChange =="life"){
@@ -231,7 +234,9 @@ export const updateAssets = async(req,res)=>{
             const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
             
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
-            return res.json({success:true, life: updatePowerUps.powerUps.life})
+            const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
+            
+            return res.json({success:true, life: PowerUps.life})
             
         }
 
