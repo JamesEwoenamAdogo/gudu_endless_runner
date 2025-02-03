@@ -72,7 +72,7 @@ export const login = async(req,res)=>{
             const gameScores = [...findExisting[0].Scores,{game:name,overallCoins:0,overallTokens:0,currentToken:0,balance:0}]
             const updated = await userSchema.findByIdAndUpdate(findExisting[0]._id,{powerUps:gamePowerUps,Scores:gameScores})
             const gameScores = updated.Scores.find((item)=>{return item.game==game})
-            const gameScores  = updated.Scores.find((item)=>{return item.game==game})
+            // const gameScores  = updated.Scores.find((item)=>{return item.game==game})
 
             return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: [gameScores] ,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
             
