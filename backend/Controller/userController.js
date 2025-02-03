@@ -172,7 +172,7 @@ export const updateScores = async(req,res)=>{
         const updatingScores = await userSchema.findByIdAndUpdate(id,{Scores:updateScores},{new:true})
         // console.log(updateScores)
         const gameUpdateScores = updatingScores.Scores.find((item)=>{return item.game == name})
-        return res.json({message:"success", success: true, overAllCoins:gameUpdateScores.overallCoins,overallToken:gameUpdateScores.overallTokens, currentTokens:gameUpdateScores.currentToken, Balance:gameUpdateScores.balance})
+        return res.json({message:"success", success: true, overAllCoins:gameUpdateScores.overallCoins,overallToken:gameUpdateScores.overallToken, currentTokens:gameUpdateScores.currentToken, Balance:gameUpdateScores.balance})
 
 
 
