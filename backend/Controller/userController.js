@@ -197,34 +197,39 @@ export const updateAssets = async(req,res)=>{
         
         if(assetToChange =="shield"){
             
-            let Shield = gameuserDetails[0].Shield
+            let Shield = gameuserDetails.Shield
             Shield+=-1
-            let magnet = gameuserDetails[0].magnet
-            let life = gameuserDetails[0].life
-            let powerUps = [...userDetails.powerUps, {game:name,Shield,magnet,life}]
-            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
+            let magnet = gameuserDetails.magnet
+            let life = gameuserDetails.life
+            let powerUps = {game:name,Shield,magnet,life}
+            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
+            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
             return res.json({success:true, shield: updatePowerUps.powerUps.Shield})
 
         }
         if(assetToChange =="magnet"){
             
-            let Shield = gameuserDetails[0].Shield
-            let magnet = gameuserDetails[0].magnet
+            let Shield = gameuserDetails.Shield
+            let magnet = gameuserDetails.magnet
             magnet+=-1
-            let life = gameuserDetails[0].life
-            let powerUps = [...userDetails.powerUps, {game:name, Shield,magnet,life}]
-            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
+            let life = gameuserDetails.life
+            let powerUps = {game:name, Shield,magnet,life}
+            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
+    
+            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
             return res.json({success:true,magnet: updatePowerUps.powerUps.magnet})
             
         }
         if(assetToChange =="life"){
             
-            let Shield = gameuserDetails[0].Shield
-            let magnet = gameuserDetails[0].magnet
-            let life = gameuserDetails[0].life
+            let Shield = gameuserDetails.Shield
+            let magnet = gameuserDetails.magnet
+            let life = gameuserDetails.life
             life+=-1
-            let powerUps = [...userDetails.powerUps, {game:name,Shield,magnet,life}]
-            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps},{new:true})
+            let powerUps = {game:name,Shield,magnet,life}
+            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name?powerUps:item})
+            
+            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
             return res.json({success:true, life: updatePowerUps.powerUps.life})
             
         }
