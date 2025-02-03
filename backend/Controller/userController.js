@@ -202,7 +202,8 @@ export const updateAssets = async(req,res)=>{
             let magnet = gameuserDetails.magnet
             let life = gameuserDetails.life
             let powerUps = {game:name,Shield,magnet,life}
-            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
+            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item}) 
+            
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
             return res.json({success:true, shield: updatePowerUps.powerUps.Shield})
 
@@ -227,7 +228,7 @@ export const updateAssets = async(req,res)=>{
             let life = gameuserDetails.life
             life+=-1
             let powerUps = {game:name,Shield,magnet,life}
-            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name?powerUps:item})
+            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
             
             const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
             return res.json({success:true, life: updatePowerUps.powerUps.life})
