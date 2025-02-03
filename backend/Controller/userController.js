@@ -96,7 +96,7 @@ export const getUser = async(req,res)=>{
         const userDetails = await userSchema.findById(id)
         const gamePowerUps = userDetails.powerUps.find((item)=>{return item.game == name})
         const gameScores = userDetails.Scores.find((item)=>{return item.game == name})
-        return res.json({success:true,fullName:userDetails.firstName,userName:userDetails.userName,D_O_B:userDetails.D_O_B, phoneNumber:userDetails.phoneNumber,overAllCoins:gameScores[0].overallCoins,currentToken:gameScores[0].currentToken, overallToken:gameScores[0].overallToken,balance: gameScores[0].balance,shield:gamePowerUps[0].Shield,magnet:gamePowerUps[0].magnet, life:gamePowerUps[0].life})
+        return res.json({success:true,fullName:userDetails.firstName,userName:userDetails.userName,D_O_B:userDetails.D_O_B, phoneNumber:userDetails.phoneNumber,overAllCoins:gameScores.overallCoins,currentToken:gameScores.currentToken, overallToken:gameScores.overallToken,balance: gameScores.balance,shield:gamePowerUps.Shield,magnet:gamePowerUps.magnet, life:gamePowerUps.life})
     }catch(error){
         console.log(error)
         return res.json({success:false})
