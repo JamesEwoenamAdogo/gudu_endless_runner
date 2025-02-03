@@ -65,21 +65,23 @@ export const login = async(req,res)=>{
         if(!comparePasswords){
             return res.json({success:false, message:"Invalid credentials"})
         }
-        const findExistingGame = findExisting[0].powerUps.find((item)=>{return item.game==name})
+        const findExistingGamePowerUps = findExisting[0].powerUps.find((item)=>{return item.game==name})
+        const findExistingGameScores = findExisting[0].Scores.find((item)=>{return item.game==name})
+        
         const token = jwt.sign({id:findExisting[0]._id,userName}, process.env.TOKEN_SECRET)
-        if(!findExistingGame){
+        if(!(findExistingGamePowerUps || findExistingGameScores)){
             const gamePowerUps = [...findExisting[0].powerUps,{game:name,Shield:5,life:5,magnet:5}]
             const gameScoresUpdate = [...findExisting[0].Scores,{game:name,overallCoins:0,overallTokens:0,currentToken:0,balance:0}]
             const updated = await userSchema.findByIdAndUpdate(findExisting[0]._id,{powerUps:gamePowerUps,Scores:gameScoresUpdate})
             const gameScores = updated.Scores.find((item)=>{return item.game==game})
             // const gameScores  = updated.Scores.find((item)=>{return item.game== name})
 
-            return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: [gameScores] ,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
+            return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: gameScores ,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
             
         }
         
       
-        return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user:findExistingGame.Scores,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
+        return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user:findExistingGameScores,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
 
 
 
