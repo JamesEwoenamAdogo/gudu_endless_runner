@@ -69,7 +69,7 @@ export const login = async(req,res)=>{
         const findExistingGameScores = findExisting[0].Scores.find((item)=>{return item.game==name})
         
         const token = jwt.sign({id:findExisting[0]._id,userName}, process.env.TOKEN_SECRET)
-        if(!(findExistingGamePowerUps || findExistingGameScores)){
+        if(!(findExistingGamePowerUps && findExistingGameScores)){
             const gamePowerUps = [...findExisting[0].powerUps,{game:name,Shield:5,life:5,magnet:5}]
             const gameScoresUpdate = [...findExisting[0].Scores,{game:name,overallCoins:0,overallTokens:0,currentToken:0,balance:0}]
             const updated = await userSchema.findByIdAndUpdate(findExisting[0]._id,{powerUps:gamePowerUps,Scores:gameScoresUpdate})
