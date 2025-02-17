@@ -214,7 +214,7 @@ export const updateAssets = async(req,res)=>{
                 const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
                 return res.json({success:true, shield: PowerUps.Shield})
             }
-             return res.json({success:true, shield: PowerUps.Shield})
+             // return res.json({success:true, shield: PowerUps.Shield})
 
         }
         if(assetToChange =="magnet"){
@@ -233,7 +233,7 @@ export const updateAssets = async(req,res)=>{
                 return res.json({success:true,magnet: PowerUps.magnet})
             }
 
-            return res.json({success:true,magnet: PowerUps.magnet})
+            // return res.json({success:true,magnet: PowerUps.magnet})
             
             
         }
@@ -252,7 +252,7 @@ export const updateAssets = async(req,res)=>{
                 
                 return res.json({success:true, life: PowerUps.life})
             }
-            return res.json({success:true, life: PowerUps.life})
+            // return res.json({success:true, life: PowerUps.life})
             
         }
 
