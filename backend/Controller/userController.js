@@ -203,30 +203,38 @@ export const updateAssets = async(req,res)=>{
         if(assetToChange =="shield"){
             
             let Shield = gameuserDetails.Shield
-            Shield+=-1
-            let magnet = gameuserDetails.magnet
-            let life = gameuserDetails.life
-            let powerUps = {game:name,Shield,magnet,life}
-            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item}) 
-            
-            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
-            const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
-            return res.json({success:true, shield: PowerUps.Shield})
+            if(!Shield==0){
+                Shield+=-1
+                let magnet = gameuserDetails.magnet
+                let life = gameuserDetails.life
+                let powerUps = {game:name,Shield,magnet,life}
+                const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item}) 
+                
+                const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
+                const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
+                return res.json({success:true, shield: PowerUps.Shield})
+            }
+             return res.json({success:true, shield: PowerUps.Shield})
 
         }
         if(assetToChange =="magnet"){
             
             let Shield = gameuserDetails.Shield
             let magnet = gameuserDetails.magnet
-            magnet+=-1
-            let life = gameuserDetails.life
-            let powerUps = {game:name, Shield,magnet,life}
-            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
-    
-            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
-            const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
-            
+            if(!magnet==0){
+                magnet+=-1
+                let life = gameuserDetails.life
+                let powerUps = {game:name, Shield,magnet,life}
+                const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
+        
+                const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
+                const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
+                
+                return res.json({success:true,magnet: PowerUps.magnet})
+            }
+
             return res.json({success:true,magnet: PowerUps.magnet})
+            
             
         }
         if(assetToChange =="life"){
@@ -234,13 +242,16 @@ export const updateAssets = async(req,res)=>{
             let Shield = gameuserDetails.Shield
             let magnet = gameuserDetails.magnet
             let life = gameuserDetails.life
-            life+=-1
-            let powerUps = {game:name,Shield,magnet,life}
-            const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
-            
-            const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
-            const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
-            
+            if(!life==0){
+                life+=-1
+                let powerUps = {game:name,Shield,magnet,life}
+                const updatedPowerUps = userDetails.powerUps.map((item)=>{return item.game==name? powerUps: item})
+                
+                const updatePowerUps = await userSchema.findByIdAndUpdate(id,{powerUps:updatedPowerUps},{new:true})
+                const PowerUps = updatePowerUps.powerUps.find((item)=>{return item.game==name})
+                
+                return res.json({success:true, life: PowerUps.life})
+            }
             return res.json({success:true, life: PowerUps.life})
             
         }
