@@ -169,8 +169,8 @@ export const updateScores = async(req,res)=>{
 
         balance = currentCoins
         overallCoins+=balance
-        currentToken = parseFloat((currentCoins/5000).toFixed(3))
-        overallToken = parseFloat((overallCoins/5000).toFixed(3))
+        currentToken = parseFloat((currentCoins/10000).toFixed(3))
+        overallToken = parseFloat((overallCoins/10000).toFixed(3))
         const scoreUpdate = {game:name,overallCoins,currentToken,overallToken,balance} 
         console.log(scoreUpdate)
         const updateScores = existing.Scores.map((item)=>{return item.game == name? scoreUpdate:item})
