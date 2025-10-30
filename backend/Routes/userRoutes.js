@@ -22,6 +22,6 @@ userRoutes.delete("/delete-account/:phone",deleteAccount)
 userRoutes.get("/user-analytics", userAnalysis)
 userRoutes.post("/user-dashboard-login",userDashBoardLogin)
 
-userRoutes.get("/game-analytics", gameAnalytics)
+userRoutes.get("/game-analytics", gameAnalyticsData)
 
 
