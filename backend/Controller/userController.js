@@ -356,3 +356,54 @@ export const deleteAccount = async(req,res)=>{
         res.status(500).json({success:false}) 
     }
 }
+
+export const userDashBoardLogin = async(req, res)=>{
+    try{
+        const {userName,password} = req.body
+
+        const user = await userSchema.findOne({userName})
+
+        if(!user){
+            return res.json({success:false,message:"Invalid username or password"})
+        }
+
+        const comparePasswords = await bcrypt.compare(password, user.password)
+
+        if(!comparePasswords){
+            return res.json({success:false, message:"Invalid email or password"})
+        }
+        return res.json({success:true})
+
+
+
+
+    }catch(error){
+        console.log(error)
+        return res.json({success:false, message:error})
+    }
+}
+
+export const userAnalysis =  async(req,res)=>{
+    try{
+        const allUsers = await userSchema.find({})
+
+        const details = allUsers.map((item,index)=>{
+            return {
+                id: index,
+                phoneNumber: item.phoneNumber,
+                userName:item.userName,
+                signUpDate: item.createdAt.toLocaleDateString("en-GB").replace(/\//g, '-'),
+                status: item.userDashboardLogin?"active":"inactive"
+            }
+        })
+
+        return res.json({success:true, details})
+
+
+
+
+    }catch(error){
+        console.log(error)
+        return res.json({success:true,message:error})
+    }
+}

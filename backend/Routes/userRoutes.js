@@ -1,5 +1,5 @@
 import express from "express"
-import { signUp,login,deleteUser,updateUser, getUser, updateScores, updateAssets, verifyAccount, checkNumber, checkOTP, resetPassword,deleteAccount } from "../Controller/userController.js"
+import { signUp,login,deleteUser,updateUser, getUser, updateScores, updateAssets, verifyAccount, checkNumber, checkOTP, resetPassword,deleteAccount, userAnalysis, userDashBoardLogin } from "../Controller/userController.js"
 import { userAuth } from "../middleware/authUser.js"
 
 export const userRoutes = express.Router()
@@ -17,4 +17,7 @@ userRoutes.post("/check-number", checkNumber)
 userRoutes.post("/checkOTP",checkOTP)
 userRoutes.post("/update-password",resetPassword)
 userRoutes.delete("/delete-account/:phone",deleteAccount) 
+
+userRoutes.get("/user-analytics", userAnalysis)
+userRoutes.post("/user-dashboard-login",userDashBoardLogin)
 
