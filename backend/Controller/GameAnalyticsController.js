@@ -1,7 +1,7 @@
 import { gameAnalytics } from "../Model/GameActivity.js";
 import { gamePurchase } from "../Model/GamePurchase.js";
 
-export const gameAnalyticsData = async (req, res) => {
+export const gameAnalytics = async (req, res) => {
   try {
     // =========================
     // 1️⃣  GAME ANALYTICS PART
