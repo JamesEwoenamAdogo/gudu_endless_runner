@@ -1,6 +1,7 @@
 import express from "express"
 import { signUp,login,deleteUser,updateUser, getUser, updateScores, updateAssets, verifyAccount, checkNumber, checkOTP, resetPassword,deleteAccount, userAnalysis, userDashBoardLogin } from "../Controller/userController.js"
 import { userAuth } from "../middleware/authUser.js"
+import { gameAnalytics } from "../Model/GameActivity.js"
 
 export const userRoutes = express.Router()
 
@@ -20,4 +21,7 @@ userRoutes.delete("/delete-account/:phone",deleteAccount)
 
 userRoutes.get("/user-analytics", userAnalysis)
 userRoutes.post("/user-dashboard-login",userDashBoardLogin)
+
+userRoutes.get("/game-analytics", gameAnalytics)
+
 

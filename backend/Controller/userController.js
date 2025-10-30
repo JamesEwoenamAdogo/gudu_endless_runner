@@ -2,6 +2,7 @@ import { userSchema } from "../Model/userModel.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import { gameAnalytics } from "../Model/GameActivity.js";
 dotenv.config()
 
 export const signUp = async(req,res)=>{
@@ -79,6 +80,10 @@ export const login = async(req,res)=>{
             return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user: gameScores ,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
             
         }
+
+        const login = new gameAnalytics({name:userName, game:name})
+
+        login.save()
         
       
         return res.json({success:true,token,message:"Login successful",userId:findExisting[0]._id, user:findExistingGameScores,fullName:findExisting[0].firstName,userName:findExisting[0].userName,D_O_B: findExisting[0].D_O_B, phoneNumber:findExisting[0].phoneNumber})
