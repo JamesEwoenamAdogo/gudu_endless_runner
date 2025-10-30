@@ -383,27 +383,29 @@ export const userDashBoardLogin = async(req, res)=>{
     }
 }
 
-export const userAnalysis =  async(req,res)=>{
-    try{
-        const allUsers = await userSchema.find({})
+export const userAnalysis = async (req, res) => {
+  try {
+    const allUsers = await userSchema.find({});
 
-        const details = allUsers.map((item,index)=>{
-            return {
-                id: index,
-                phoneNumber: item.phoneNumber,
-                userName:item.userName,
-                signUpDate: item.createdAt.toLocaleDateString("en-GB").replace(/\//g, '-'),
-                status: item.userDashboardLogin?"active":"inactive"
-            }
-        })
+    const details = allUsers.map((item, index) => {
+      const twoWeeksAgo = new Date();
+      twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
-        return res.json({success:true, details})
+      const retained = item.updatedAt >= twoWeeksAgo; // true if updated within last 2 weeks
 
+      return {
+        id: index,
+        phoneNumber: item.phoneNumber,
+        userName: item.userName,
+        signUpDate: item.createdAt.toLocaleDateString("en-GB").replace(/\//g, "-"),
+        status: item.userDashboardLogin ? "active" : "inactive",
+        retained, // add this property
+      };
+    });
 
-
-
-    }catch(error){
-        console.log(error)
-        return res.json({success:true,message:error})
-    }
-}
+    return res.json({ success: true, details });
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
