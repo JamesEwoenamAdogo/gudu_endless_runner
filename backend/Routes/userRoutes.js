@@ -1,7 +1,7 @@
 import express from "express"
 import { signUp,login,deleteUser,updateUser, getUser, updateScores, updateAssets, verifyAccount, checkNumber, checkOTP, resetPassword,deleteAccount, userAnalysis, userDashBoardLogin } from "../Controller/userController.js"
 import { userAuth } from "../middleware/authUser.js"
-import { gameAnalytics } from "../Controller/GameAnalyticsController.js"
+import { gameAnalyticsData } from "../Controller/GameAnalyticsController.js"
 
 export const userRoutes = express.Router()
 
